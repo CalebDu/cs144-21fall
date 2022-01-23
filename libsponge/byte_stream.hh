@@ -18,6 +18,12 @@ class ByteStream {
     // different approaches.
 
     bool _error{};  //!< Flag indicating that the stream suffered an error.
+    uint64_t capacity_;
+    std::string  stream{};
+    // bool eof_{};
+    uint64_t read_{};
+    uint64_t written_{};
+    bool stop_input{};
 
   public:
     //! Construct a stream with room for `capacity` bytes.
