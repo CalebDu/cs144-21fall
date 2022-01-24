@@ -8,10 +8,11 @@
             "name": "g++-9 - Build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/build/apps/${fileBasenameNoExtension}",
+            // "program": "${workspaceRoot}/build/apps/${fileBasenameNoExtension}",
+            "program": "${command:cmake.launchTargetPath}",
             "args": [
-                "cs144.keithw.org",
-                "/hello"
+                // "cs144.keithw.org",
+                // "/hello"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
