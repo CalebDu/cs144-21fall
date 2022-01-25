@@ -26,7 +26,7 @@ class StreamReassembler {
     bool _eof{};
     size_t _capacity;    //!< The maximum number of bytes
     size_t _unassemble_byte{};
-    size_t _firstUnassembleIndex{};
+    uint64_t _firstUnassembleIndex{};
     size_t merge(std::string& data, size_t& index, Iter itr);
 
   public:
@@ -60,6 +60,10 @@ class StreamReassembler {
     //! \brief Is the internal state empty (other than the output stream)?
     //! \returns `true` if no substrings are waiting to be assembled
     bool empty() const;
+
+    void recv_flag(){_firstUnassembleIndex++;}
+
+    uint64_t get_first_unassemble(){return _firstUnassembleIndex;}
 };
 
 #endif  // SPONGE_LIBSPONGE_STREAM_REASSEMBLER_HH

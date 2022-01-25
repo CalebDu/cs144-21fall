@@ -58,8 +58,8 @@ bool ByteStream::buffer_empty() const { return stream.empty(); }
 
 bool ByteStream::eof() const { return input_ended()&&buffer_empty(); }
 
-size_t ByteStream::bytes_written() const { return written_; }
+uint64_t ByteStream::bytes_written() const { return written_; }
 
-size_t ByteStream::bytes_read() const { return read_; }
+uint64_t ByteStream::bytes_read() const { return read_; }
 
 size_t ByteStream::remaining_capacity() const { return capacity_ - stream.size(); }

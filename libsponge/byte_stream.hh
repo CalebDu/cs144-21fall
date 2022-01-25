@@ -81,10 +81,10 @@ class ByteStream {
     //!@{
 
     //! Total number of bytes written
-    size_t bytes_written() const;
+    uint64_t bytes_written() const;
 
     //! Total number of bytes popped
-    size_t bytes_read() const;
+    uint64_t bytes_read() const;
     //!@}
 };
 

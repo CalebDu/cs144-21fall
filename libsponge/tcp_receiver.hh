@@ -16,9 +16,11 @@
 class TCPReceiver {
     //! Our data structure for re-assembling bytes.
     StreamReassembler _reassembler;
-
     //! The maximum number of bytes we'll store.
+    uint64_t _checkpoint{};
     size_t _capacity;
+    bool _syn_flag{}, _fin_flag{};
+    WrappingInt32 _seq_no{0}, _ack_no{0}, _isn{0};
 
   public:
     //! \brief Construct a TCP receiver
