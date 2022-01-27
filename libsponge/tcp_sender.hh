@@ -15,6 +15,23 @@
 //! segments, keeps track of which segments are still in-flight,
 //! maintains the Retransmission Timer, and retransmits in-flight
 //! segments if the retransmission timer expires.
+
+struct Timer{
+  bool run{};
+  unsigned int _rto;
+  unsigned int _irto;
+  unsigned int _last_tick{};
+  Timer()=delete;
+  Timer(unsigned int rto):_rto(rto),_irto(rto){}
+  
+  void start();
+  void close();
+  bool tick(const size_t ms_since_last_tick);
+
+
+
+};
+
 class TCPSender {
   private:
     //! our initial sequence number, the number for our SYN.
@@ -22,16 +39,20 @@ class TCPSender {
 
     //! outbound queue of segments that the TCPSender wants sent
     std::queue<TCPSegment> _segments_out{};
-
+    std::queue<TCPSegment> _segments_outstanding{};
     //! retransmission timer for the connection
     unsigned int _initial_retransmission_timeout;
+    unsigned int _consecutive_retransmission{};
 
+    size_t _byte_in_flight{};
+    size_t _win{1};
+    bool _syn{}, _fin{};
     //! outgoing stream of bytes that have not yet been sent
     ByteStream _stream;
-
+    Timer _timer;
     //! the (absolute) sequence number for the next byte to be sent
     uint64_t _next_seqno{0};
-
+    uint64_t _recv_ackno{};
   public:
     //! Initialize a TCPSender
     TCPSender(const size_t capacity = TCPConfig::DEFAULT_CAPACITY,
@@ -53,6 +74,7 @@ class TCPSender {
     //! \brief Generate an empty-payload segment (useful for creating empty ACK segments)
     void send_empty_segment();
 
+    void send_segment(TCPSegment&);
     //! \brief create and send segments to fill as much of the window as possible
     void fill_window();
 
